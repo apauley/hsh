@@ -17,6 +17,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     HSHLib
   build-depends:       base >= 4.7 && < 5
+                     , turtle
   default-language:    Haskell2010
 
 executable hsh
@@ -29,6 +30,7 @@ executable hsh
 
   build-depends:       base
                      , hsh
+                     , turtle
   default-language:    Haskell2010
 
 test-suite hsh-test
