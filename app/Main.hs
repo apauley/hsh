@@ -8,5 +8,12 @@ import HSHLib
 
 main :: IO ()
 main = do
-  echo "Hello HSH"
-  someFunc
+  PSGrep g <- options "Haskell Shell Helpers" parser
+  echo g
+
+data Command = PSGrep Text  deriving (Show)
+
+parser :: Parser Command
+parser = fmap PSGrep (subcommand "psg" "Grep for text from a process listing"
+                      (argText "text" "Some text to grep for"))
+
