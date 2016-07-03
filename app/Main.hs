@@ -9,7 +9,7 @@ import HSHLib
 main :: IO ()
 main = do
   PSGrep g <- options "Haskell Shell Helpers" parser
-  echo g
+  view $ psg g
 
 data Command = PSGrep Text  deriving (Show)
 
