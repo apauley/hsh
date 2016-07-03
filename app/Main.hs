@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import HSHLib
 
 main :: IO ()
 main = someFunc
