@@ -23,6 +23,10 @@ executable hsh
   hs-source-dirs:      app
   main-is:             Main.hs
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+
+  if !os(osx)
+    ghc-options:       -static -optc-static -optl-static
+
   build-depends:       base
                      , hsh
   default-language:    Haskell2010
