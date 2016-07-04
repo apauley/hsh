@@ -13,25 +13,22 @@ checkerMD5 = "0c06c24fda0db873665f5a8be6681c00"
 
 downloadUrl = format ("http://dl.bintray.com/jeremy-long/owasp/"%fp) checkerZip
 
-owaspCheck :: FilePath -> IO ExitCode
+owaspCheck :: FilePath -> IO ()
 owaspCheck path = do
   zip <- localZip
   putStrLn $ show zip
   rmtreeIfExists "dependency-check"
   extractZipFile zip
-  runDependencyCheck path .||. die "Error running dependency check."
+  runDependencyCheck path
 
-runDependencyCheck :: FilePath -> IO ExitCode
+runDependencyCheck :: FilePath -> IO ()
 runDependencyCheck scandir = do
-  let files = "/etc/hosts"
+  let files = format (fp%"/*") scandir
   let cmd = "./dependency-check/bin/dependency-check.sh"
   let args = ["--format", "ALL", "--project", "HSH", "--scan", files]
   echo $ T.intercalate " " $ cmd : args
-  (exitCode, output) <- procStrict cmd args empty
-  return exitCode
-
--- files :: Shell FilePath -> [FilePath]
--- files shellOut = fold shellOut Fold.list
+  output <- procs cmd args empty
+  return ()
 
 localZip :: IO FilePath
 localZip = do
