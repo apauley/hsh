@@ -19,6 +19,7 @@ data Command = PSGrep Text | OwaspDependencyCheck FilePath deriving (Show)
 parser :: Parser Command
 parser = fmap PSGrep (subcommand "psg" "Grep for text from a process listing."
                       (argText "text" "Some text to grep for"))
-     <|> fmap OwaspDependencyCheck (subcommand "owasp-dependency-check" "Run the OWASP dependency checker pointing at a directory.\nhttps://www.owasp.org/index.php/OWASP_Dependency_Check"
+     <|> fmap OwaspDependencyCheck (subcommand "owasp-dependency-check"
+                                    "Run the OWASP dependency checker pointing at a directory.\nhttps://www.owasp.org/index.php/OWASP_Dependency_Check"
                       (argPath "dir" "A directory with files to check"))
 
