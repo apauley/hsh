@@ -4,7 +4,7 @@ module HSHOwaspLib where
 
 import Turtle
 import Prelude hiding (FilePath)
-import HSHLib (assertMD5)
+import HSHLib (assertMD5, extractZipFile, rmtreeIfExists)
 
 checkerZip = "dependency-check-1.4.0-release.zip"
 checkerMD5 = "0c06c24fda0db873665f5a8be6681c00"
@@ -15,6 +15,8 @@ owaspCheck :: FilePath -> IO ()
 owaspCheck path = do
   zip <- localZip
   putStrLn $ show zip
+  rmtreeIfExists "dependency-check"
+  extractZipFile zip
   echo "done"
 
 localZip :: IO FilePath

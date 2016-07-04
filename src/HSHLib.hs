@@ -25,3 +25,13 @@ assertMD5 file expectedMD5 = do
   if (md5 == expectedMD5)
     then realpath file
     else die $ format ("I got an MD5 of "%s%", but I expected "%s) md5 expectedMD5
+
+extractZipFile :: FilePath -> IO ()
+extractZipFile zipfile = procs "unzip" [format fp zipfile] empty
+
+rmtreeIfExists :: FilePath -> IO ()
+rmtreeIfExists dir = do
+  exists <- testdir dir
+  if exists
+    then rmtree dir
+    else return ()
