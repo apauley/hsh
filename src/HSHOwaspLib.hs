@@ -17,7 +17,6 @@ owaspCheck :: FilePath -> IO ()
 owaspCheck path = do
   zip <- localZip
   putStrLn $ show zip
-  rmtreeIfExists "dependency-check"
   extractZipFile zip
   runDependencyCheck path
 
