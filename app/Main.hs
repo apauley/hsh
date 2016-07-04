@@ -12,7 +12,9 @@ main = do
   x <- options "Haskell Shell Helpers" parser
   case x of
     PSGrep g                  -> view $ psg g
-    OwaspDependencyCheck path -> owaspCheck path
+    OwaspDependencyCheck path -> do
+      _ <- owaspCheck path
+      return ()
 
 data Command = PSGrep Text | OwaspDependencyCheck FilePath deriving (Show)
 
