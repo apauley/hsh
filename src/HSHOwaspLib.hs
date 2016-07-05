@@ -16,7 +16,6 @@ downloadUrl = format ("http://dl.bintray.com/jeremy-long/owasp/"%fp) checkerZip
 owaspCheck :: FilePath -> IO ()
 owaspCheck path = do
   zip <- localZip
-  putStrLn $ show zip
   extractZipFile zip
   runDependencyCheck path
 
@@ -26,8 +25,7 @@ runDependencyCheck scandir = do
   let cmd = "./dependency-check/bin/dependency-check.sh"
   let args = ["--format", "ALL", "--project", "HSH", "--scan", files]
   echo $ T.intercalate " " $ cmd : args
-  output <- procs cmd args empty
-  return ()
+  procs cmd args empty
 
 localZip :: IO FilePath
 localZip = do
