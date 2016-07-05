@@ -29,6 +29,13 @@ assertMD5 file expectedMD5 = do
 extractZipFile :: FilePath -> IO ()
 extractZipFile zipfile = procs "unzip" ["-u", format fp zipfile] empty
 
+rmIfExists :: FilePath -> IO ()
+rmIfExists file = do
+  exists <- testfile file
+  if exists
+    then rm file
+    else return ()
+
 rmtreeIfExists :: FilePath -> IO ()
 rmtreeIfExists dir = do
   exists <- testdir dir
