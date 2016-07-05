@@ -30,6 +30,20 @@ runDependencyCheck scandir = do
   let args = ["--format", "ALL", "--project", "HSH", "--scan", files]
   echo $ T.intercalate " " $ cmd : args
   procs cmd args empty
+  analyzeReport
+
+analyzeReport :: IO ()
+analyzeReport = do
+  let cmd = "cat dependency-check-report.xml|grep '<severity>.*</severity>'|cut -d'>' -f2|cut -d'<' -f1|sort|uniq"
+  echo cmd
+  (exitCode, output) <- shellStrict cmd empty
+  echo $ format ("Report output:\n"%s) output
+  let highCount = T.count "High" output
+  if (highCount > 0)
+    then die "ERROR: There are high severity vulnerabilities"
+    else if (T.null output)
+         then die "ERROR: The dependency checker produced an empty report"
+    else return ()
 
 localZip :: IO FilePath
 localZip = do
