@@ -26,15 +26,7 @@ runDependencyCheck scandir = do
   let cmd = "./dependency-check/bin/dependency-check.sh"
   let args = ["--format", "ALL", "--project", "HSH", "--scan", files]
   echo $ T.intercalate " " $ cmd : args
-  (exitCode, output) <- procStrict cmd args empty
-  echo output
-  let errorCount = T.count "ERROR" output
-  case exitCode of
-    ExitSuccess -> do
-      if (errorCount > 0)
-        then die $ format (d%" error(s) detected in dependency check output") errorCount
-        else return ()
-    ExitFailure n -> die $ format ("Dependency check exited with code: "%d) n
+  procs cmd args empty
 
 localZip :: IO FilePath
 localZip = do
