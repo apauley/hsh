@@ -15,19 +15,19 @@ downloadUrl = format ("http://dl.bintray.com/jeremy-long/owasp/"%fp) checkerZip
 
 reportFiles = ["dependency-check-report.html", "dependency-check-report.xml", "dependency-check-vulnerability.html"]
 
-owaspCheck :: FilePath -> IO ()
-owaspCheck path = do
+owaspCheck :: Text -> FilePath -> IO ()
+owaspCheck project path = do
   zip <- localZip
   extractZipFile zip
   deleteReports
   scandir <- realpath path
-  runDependencyCheck scandir
+  runDependencyCheck project scandir
 
-runDependencyCheck :: FilePath -> IO ()
-runDependencyCheck scandir = do
+runDependencyCheck :: Text -> FilePath -> IO ()
+runDependencyCheck project scandir = do
   let files = format (fp%"/**/*") scandir
   let cmd = "./dependency-check/bin/dependency-check.sh"
-  let args = ["--format", "ALL", "--project", "HSH", "--scan", files]
+  let args = ["--format", "ALL", "--project", project, "--scan", files]
   echo $ T.intercalate " " $ cmd : args
   procs cmd args empty
   analyzeReport
