@@ -17,11 +17,12 @@ owaspCheck :: FilePath -> IO ()
 owaspCheck path = do
   zip <- localZip
   extractZipFile zip
-  runDependencyCheck path
+  scandir <- realpath path
+  runDependencyCheck scandir
 
 runDependencyCheck :: FilePath -> IO ()
 runDependencyCheck scandir = do
-  let files = format (fp%"**/*") scandir
+  let files = format (fp%"/**/*") scandir
   let cmd = "./dependency-check/bin/dependency-check.sh"
   let args = ["--format", "ALL", "--project", "HSH", "--scan", files]
   echo $ T.intercalate " " $ cmd : args
