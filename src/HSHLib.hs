@@ -48,3 +48,6 @@ echoFlush :: Text -> IO ()
 echoFlush s = do
   echo s
   SysIO.hFlush SysIO.stdout
+
+emptyErrorText :: Either a Text -> Text
+emptyErrorText = either (\a -> "") (\b -> b)
