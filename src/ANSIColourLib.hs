@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module HSHAnsiColourLib where
+module ANSIColourLib where
+
 import Turtle
 
 type ColourCode = Text
