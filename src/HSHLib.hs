@@ -6,6 +6,7 @@ import Turtle
 import Prelude hiding (FilePath)
 import qualified Data.Text as T
 import qualified Control.Foldl as Fold
+import qualified System.IO as SysIO (hFlush, stdout)
 
 psg :: Text -> Shell Text
 psg g = do
@@ -42,3 +43,8 @@ rmtreeIfExists dir = do
   if exists
     then rmtree dir
     else return ()
+
+echoFlush :: Text -> IO ()
+echoFlush s = do
+  echo s
+  SysIO.hFlush SysIO.stdout

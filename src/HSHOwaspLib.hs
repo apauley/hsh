@@ -4,7 +4,7 @@ module HSHOwaspLib where
 
 import Turtle
 import Prelude hiding (FilePath)
-import HSHLib (assertMD5, extractZipFile, rmIfExists)
+import HSHLib (assertMD5, extractZipFile, rmIfExists, echoFlush)
 import qualified Data.Text as T
 import qualified Control.Foldl as Fold
 
@@ -28,16 +28,16 @@ runDependencyCheck project scandir = do
   let files = format (fp%"/**/*") scandir
   let cmd = "./dependency-check/bin/dependency-check.sh"
   let args = ["--format", "ALL", "--project", project, "--scan", files]
-  echo $ T.intercalate " " $ cmd : args
+  echoFlush $ T.intercalate " " $ cmd : args
   procs cmd args empty
   analyzeReport
 
 analyzeReport :: IO ()
 analyzeReport = do
   let cmd = "cat dependency-check-report.xml|grep '<severity>.*</severity>'|cut -d'>' -f2|cut -d'<' -f1|sort|uniq"
-  echo cmd
+  echoFlush cmd
   (exitCode, output) <- shellStrict cmd empty
-  echo $ format ("Report output:\n"%s) output
+  echoFlush $ format ("Report output:\n"%s) output
   let highCount = T.count "High" output
   if (highCount > 0)
     then die "ERROR: There are high severity vulnerabilities"
