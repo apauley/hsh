@@ -18,8 +18,7 @@ psg g = do
 assertMD5 :: FilePath -> Text -> IO FilePath
 assertMD5 file expectedMD5 = do
   let cmd = format ("md5sum "%fp%"| awk '{print $1}'") file
-  let shellMD5 = inshell cmd empty
-  maybeMD5 <- fold shellMD5 Fold.head
+  maybeMD5 <- maybeFirstLine $ inshell cmd empty
   let md5 = case maybeMD5 of
         Just m  -> m
         Nothing -> "Oops, no MD5!"
@@ -51,3 +50,6 @@ echoFlush s = do
 
 emptyErrorText :: Either a Text -> Text
 emptyErrorText = either (\a -> "") (\b -> b)
+
+maybeFirstLine :: Shell Text -> IO (Maybe Text)
+maybeFirstLine shellText = fold shellText Fold.head
