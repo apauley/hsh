@@ -52,3 +52,11 @@ emptyErrorText = either (\a -> "") (\b -> b)
 
 maybeFirstLine :: Shell Text -> IO (Maybe Text)
 maybeFirstLine shellText = fold shellText Fold.head
+
+terminalColumns :: IO Int
+terminalColumns = do
+  let cols = inproc "/usr/bin/env" ["tput", "cols"] empty
+  maybeCols <- fold cols Fold.head
+  case maybeCols of
+    Just c  -> return $ read $ T.unpack c
+    Nothing -> return 80
