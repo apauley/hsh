@@ -57,6 +57,4 @@ terminalColumns :: IO Int
 terminalColumns = do
   let cols = inproc "/usr/bin/env" ["tput", "cols"] empty
   maybeCols <- fold cols Fold.head
-  case maybeCols of
-    Just c  -> return $ read $ T.unpack c
-    Nothing -> return 80
+  return $ read $ T.unpack $ fromMaybe "80" maybeCols
