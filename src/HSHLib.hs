@@ -7,6 +7,7 @@ import Prelude hiding (FilePath)
 import qualified Data.Text as T
 import qualified Control.Foldl as Fold
 import qualified System.IO as SysIO (hFlush, stdout)
+import Data.Maybe
 
 psg :: Text -> Shell Text
 psg g = do
@@ -19,9 +20,7 @@ assertMD5 :: FilePath -> Text -> IO FilePath
 assertMD5 file expectedMD5 = do
   let cmd = format ("md5sum "%fp%"| awk '{print $1}'") file
   maybeMD5 <- maybeFirstLine $ inshell cmd empty
-  let md5 = case maybeMD5 of
-        Just m  -> m
-        Nothing -> "Oops, no MD5!"
+  let md5 = fromMaybe "Oops, no MD5!" maybeMD5
   if (md5 == expectedMD5)
     then realpath file
     else die $ format ("I got an MD5 of "%s%", but I expected "%s) md5 expectedMD5
