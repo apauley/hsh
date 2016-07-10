@@ -17,9 +17,9 @@ library
   hs-source-dirs:      src
   exposed-modules:     HSHLib, HSHOwaspLib, ANSIColourLib
   build-depends:       base >= 4.7 && < 5
-                     , turtle
-                     , text
-                     , foldl
+                     , turtle >= 1.2.7
+                     , text >= 1.2.2
+                     , foldl >= 1.2.0
   default-language:    Haskell2010
 
 executable hsh
@@ -30,9 +30,9 @@ executable hsh
   if !os(osx)
     ghc-options:       -static -optc-static -optl-static
 
-  build-depends:       base
+  build-depends:       base >= 4.7 && < 5
                      , hsh
-                     , turtle
+                     , turtle >= 1.2.7
   default-language:    Haskell2010
 
 test-suite hsh-test
