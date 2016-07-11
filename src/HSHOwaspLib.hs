@@ -13,7 +13,8 @@ checkerMD5 = "0c06c24fda0db873665f5a8be6681c00"
 
 downloadUrl = format ("http://dl.bintray.com/jeremy-long/owasp/"%fp) checkerZip
 
-reportFiles = ["dependency-check-report.html", "dependency-check-report.xml", "dependency-check-vulnerability.html"]
+xmlReport = "dependency-check-report.xml"
+reportFiles = xmlReport:["dependency-check-report.html", "dependency-check-vulnerability.html"]
 
 owaspCheck :: Text -> FilePath -> IO ()
 owaspCheck project path = do
@@ -34,7 +35,7 @@ runDependencyCheck project scandir = do
 
 analyzeReport :: IO ()
 analyzeReport = do
-  let cmd = "cat dependency-check-report.xml|grep '<severity>.*</severity>'|cut -d'>' -f2|cut -d'<' -f1|sort|uniq"
+  let cmd = format ("cat "%fp%"|grep '<severity>.*</severity>'|cut -d'>' -f2|cut -d'<' -f1|sort|uniq") xmlReport
   echoFlush cmd
   (exitCode, output) <- shellStrict cmd empty
   echoFlush $ format ("Report output:\n"%s) output
