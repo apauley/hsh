@@ -7,6 +7,7 @@ import Prelude hiding (FilePath)
 import HSHLib (assertMD5, extractZipFile, rmIfExists, echoFlush)
 import qualified Data.Text as T
 import qualified Control.Foldl as Fold
+import Data.Foldable
 
 checkerZip = "dependency-check-1.4.0-release.zip"
 checkerMD5 = "0c06c24fda0db873665f5a8be6681c00"
@@ -58,6 +59,5 @@ downloadDependencyCheck = do
   procs "wget" [downloadUrl] empty
   assertMD5 checkerZip checkerMD5
 
-deleteReports = do
-  let [r1,r2,r3] = reportFiles
-  rmIfExists r1; rmIfExists r2; rmIfExists r3
+deleteReports :: IO ()
+deleteReports = for_ reportFiles rmIfExists
