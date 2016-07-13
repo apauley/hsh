@@ -12,7 +12,7 @@ main = do
   x <- options "Haskell Shell Helpers" parser
   case x of
     PSGrep g                                -> stdout $ psg g
-    OwaspDependencyCheck (project, scandir) -> owaspCheck project scandir
+    OwaspDependencyCheck (project, scandir) -> owaspCheck project scandir []
 
 data Command = PSGrep Text | OwaspDependencyCheck (Text, FilePath) deriving (Show)
 
