@@ -7,7 +7,7 @@ import Prelude hiding (FilePath)
 import HSHLib (assertMD5, extractZipFile, rmIfExists, echoFlush)
 import qualified Data.Text as T
 import qualified Control.Foldl as Fold
-import Data.Foldable
+import Data.Foldable (for_)
 
 checkerZip = "dependency-check-1.4.0-release.zip"
 checkerMD5 = "0c06c24fda0db873665f5a8be6681c00"

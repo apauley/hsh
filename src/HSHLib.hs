@@ -58,3 +58,6 @@ terminalColumns = do
   let cols = inproc "/usr/bin/env" ["tput", "cols"] empty
   maybeCols <- fold cols Fold.head
   return $ read $ T.unpack $ fromMaybe "80" maybeCols
+
+noArgs :: Parser (Maybe Text)
+noArgs = optional (argText "" "")
