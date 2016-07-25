@@ -7,7 +7,7 @@ import Turtle
 type ColourCode = Text
 
 colourText :: ColourCode -> Text -> Text
-colourText colour t = format ("\x1b["%s%"m"%s%"\x1b[0m") colour t
+colourText colour t = format ("\x01\x1b["%s%"m\x02"%s%"\x01\x1b[0m\x02") colour t
 
 blackFG       = colourText codeBlackFG
 darkGreyFG    = colourText codeDarkGreyFG
