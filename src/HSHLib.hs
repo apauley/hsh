@@ -26,7 +26,7 @@ assertMD5 file expectedMD5 = do
     else die $ format ("I got an MD5 of "%s%", but I expected "%s) md5 expectedMD5
 
 extractZipFile :: FilePath -> IO ()
-extractZipFile zipfile = procs "unzip" ["-u", format fp zipfile] empty
+extractZipFile zipfile = procs "unzip" ["-o", format fp zipfile] empty
 
 rmIfExists :: FilePath -> IO ()
 rmIfExists file = do
