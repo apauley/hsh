@@ -10,7 +10,7 @@ import qualified Control.Foldl as Fold
 import Data.Foldable (for_)
 
 checkerZip = "dependency-check-1.4.5-release.zip"
-checkerMD5 = "93d9cf0d3b89b6211249cfd95a93069a"
+checkerMD5 = "ef3129d3e74cacf65788c239aecd5cc3"
 
 downloadUrl = format ("http://dl.bintray.com/jeremy-long/owasp/"%fp) checkerZip
 
