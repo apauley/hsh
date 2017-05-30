@@ -9,3 +9,14 @@ But is your bash alias type-checked?
 ```bash
 stack build && stack exec hsh
 ```
+
+## Build the Executable using Stack within Docker
+
+```bash
+$ docker run -v ${HOME}/.local/bin:/root/.local/bin -v /path/to/repo/dir/hsh:/hsh  -it --rm haskell:7.10.3 /bin/bash
+$ cd /hsh
+$ stack config set system-ghc --global true
+$ stack install
+```
+
+This will copy the `hsh` executable to `~/.local/bin`
