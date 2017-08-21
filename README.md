@@ -13,10 +13,10 @@ stack build && stack exec hsh
 ## Build the Executable using Stack within Docker
 
 ```bash
-$ docker run -v ${HOME}/.stack:/root/.stack -v ${HOME}/.local/bin:/root/.local/bin -v /path/to/repo/dir/hsh:/hsh  -it --rm haskell:7.10.3 /bin/bash
+$ docker run -v ~/.stack:/root/.stack -v ~/.local/bin:/root/.local/bin -v /path/to/hsh:/hsh -it --rm haskell:8.0.1 /bin/bash
 $ cd /hsh
 $ stack config set system-ghc --global true
-$ stack install
+$ stack install --allow-different-user
 ```
 
 This will copy the `hsh` executable to `~/.local/bin`
