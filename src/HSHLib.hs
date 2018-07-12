@@ -47,9 +47,6 @@ echoFlush s = do
   echo s
   SysIO.hFlush SysIO.stdout
 
-emptyErrorText :: Either a Text -> Text
-emptyErrorText = either (\a -> "") (\b -> b)
-
 maybeFirstLine :: Shell Line -> IO (Maybe Line)
 maybeFirstLine shellText = fold shellText Fold.head
 
