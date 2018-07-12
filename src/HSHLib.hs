@@ -9,7 +9,7 @@ import qualified Control.Foldl as Fold
 import qualified System.IO as SysIO (hFlush, stdout)
 import Data.Maybe
 
-psg :: Text -> Shell Text
+psg :: Text -> Shell Line
 psg g = do
   let ps = inproc "ps" ["-ef"] empty
   let dontmatch = invert $ has (text $ format ("psg "%s) g)
@@ -20,7 +20,7 @@ assertMD5 :: FilePath -> Text -> IO FilePath
 assertMD5 file expectedMD5 = do
   let cmd = format ("md5sum "%fp%"| awk '{print $1}'") file
   maybeMD5 <- maybeFirstLine $ inshell cmd empty
-  let md5 = fromMaybe "Oops, no MD5!" maybeMD5
+  let md5 = fromMaybe "Oops, no MD5!" $ fmap lineToText maybeMD5
   if (md5 == expectedMD5)
     then realpath file
     else die $ format ("I got an MD5 of "%s%", but I expected "%s) md5 expectedMD5
@@ -42,7 +42,7 @@ rmtreeIfExists dir = do
     then rmtree dir
     else return ()
 
-echoFlush :: Text -> IO ()
+echoFlush :: Line -> IO ()
 echoFlush s = do
   echo s
   SysIO.hFlush SysIO.stdout
@@ -50,14 +50,14 @@ echoFlush s = do
 emptyErrorText :: Either a Text -> Text
 emptyErrorText = either (\a -> "") (\b -> b)
 
-maybeFirstLine :: Shell Text -> IO (Maybe Text)
+maybeFirstLine :: Shell Line -> IO (Maybe Line)
 maybeFirstLine shellText = fold shellText Fold.head
 
 terminalColumns :: IO Int
 terminalColumns = do
   let cols = inproc "/usr/bin/env" ["tput", "cols"] empty
   maybeCols <- fold cols Fold.head
-  return $ read $ T.unpack $ fromMaybe "80" maybeCols
+  return $ read $ T.unpack $ fromMaybe "80" $ fmap lineToText maybeCols
 
 noArgs :: Parser (Maybe Text)
 noArgs = optional (argText "" "")

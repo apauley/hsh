@@ -30,16 +30,16 @@ runDependencyCheck project scandir preArgs = do
   let files = format (fp%"/**/*") scandir
   let cmd = "./dependency-check/bin/dependency-check.sh"
   let args = preArgs++["--format", "ALL", "--project", project, "--scan", files]
-  echoFlush $ T.intercalate " " $ cmd : args
+  echoFlush $ unsafeTextToLine $ T.intercalate " " $ cmd : args
   procs cmd args empty
   analyzeReport
 
 analyzeReport :: IO ()
 analyzeReport = do
   let cmd = format ("cat "%fp%"|grep '<severity>.*</severity>'|cut -d'>' -f2|cut -d'<' -f1|sort|uniq") xmlReport
-  echoFlush cmd
+  echoFlush $ unsafeTextToLine cmd
   (exitCode, output) <- shellStrict cmd empty
-  echoFlush $ format ("Report output:\n"%s) output
+  echoFlush $ unsafeTextToLine $ format ("Report output:\n"%s) output
   let highCount = T.count "High" output
   if (highCount > 0)
     then die "ERROR: There are high severity vulnerabilities"
